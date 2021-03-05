@@ -118,3 +118,32 @@ export const bankDefinitions: { [contractName: string]: BankInfo } = {
 };
 
 export default configurations[process.env.NODE_ENV || "development"];
+
+
+export const robotsConfig = [
+  {
+    name: "Robot-USDT-FBC-1",
+    privateKey: "0x84ae2d8d3c1ee2cb4b7bd910dd82590d9769ce66450e389cc258370aaaa438a1",
+    account: "0x14d234b468A32Ca411097e259956f5FEF2E8cd6a",
+    bankName: "USDT_AcceleratorCashPool",
+    depositTokenName: "USDT",
+    depositTokenAddress: "0x45Df2Ccc7a506D819C7c2d59Cfa44c73eda5C311",
+    eranTokenName: "FBC",
+    eranTokenNameAddress: "0xec4D0506Dcdae8157F99925119b7EaE0BDe7CB68",
+    intervalMinitues: 2
+  },
+  {
+    name: "Robot-USDT-FBC-2",
+    privateKey: "0xc82f91d0c858aaeb36dba13731e09867fd05424ffc3343f64a4ede29d0a73ea0",
+    account: "0x3E4Fd8334AFe97fc4700111AF8237101BF7B8484",
+    bankName: "USDT_AcceleratorCashPool",
+    depositTokenName: "USDT",
+    depositTokenAddress: "0x45Df2Ccc7a506D819C7c2d59Cfa44c73eda5C311",
+    eranTokenName: "FBC",
+    eranTokenNameAddress: "0xec4D0506Dcdae8157F99925119b7EaE0BDe7CB68",
+    intervalMinitues: 2
+  }
+];
+
+
+

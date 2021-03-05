@@ -15,6 +15,7 @@ export interface BankInfo {
   acceleratorTokenName: ContractName;
 }
 
+
 export interface Bank extends BankInfo {
   address: string;
   depositToken: ERC20;

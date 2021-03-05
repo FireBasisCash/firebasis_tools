@@ -4,22 +4,16 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { UseWalletProvider } from 'use-wallet';
 
-import BanksProvider from './contexts/Banks';
+import RobotsProvider from './contexts/Robots';
 import BasisCashProvider from './contexts/BasisCashProvider';
 import ModalsProvider from './contexts/Modals';
-
-import Banks from './views/Banks';
-import Home from './views/Home';
-import Bond from './views/Bond';
 
 import store from './state';
 import theme from './theme';
 import config from './config';
 import Updaters from './state/Updaters';
-import Boardroom from './views/Boardroom';
 import Popups from './components/Popups';
-import WhiteList from './views/WhiteList';
-import Governance from './views/Governance';
+import Robots from './views/Robot';
 
 
 const App: React.FC = () => {
@@ -28,28 +22,7 @@ const App: React.FC = () => {
       <Router>
         <Switch>
           <Route path="/" exact>
-            <Home />
-          </Route>
-          <Route path="/fbc">
-            <Banks />
-          </Route>
-          <Route path="/fbs">
-            <Banks />
-          </Route>
-          <Route path="/bank">
-            <Banks />
-          </Route>
-          <Route path="/bonds">
-            <Bond />
-          </Route>
-          <Route path="/boardroom">
-            <Boardroom />
-          </Route>
-          <Route path="/whitelist">
-            <WhiteList />
-          </Route>
-          <Route path="/governance">
-            <Governance />
+            <Robots />
           </Route>
         </Switch>
       </Router>
@@ -65,12 +38,12 @@ const Providers: React.FC = ({ children }) => {
           <Updaters />
           <BasisCashProvider>
             <ModalsProvider>
-              <BanksProvider>
+              <RobotsProvider>
                 <>
                   <Popups />
                   {children}
                 </>
-              </BanksProvider>
+              </RobotsProvider>
             </ModalsProvider>
           </BasisCashProvider>
         </Provider>

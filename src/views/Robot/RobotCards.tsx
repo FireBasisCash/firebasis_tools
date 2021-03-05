@@ -7,72 +7,68 @@ import Button from '../../components/Button';
 import Card from '../../components/Card';
 import CardContent from '../../components/CardContent';
 import CardIcon from '../../components/CardIcon';
-import useBanks from '../../hooks/useBanks';
 import TokenSymbol from '../../components/TokenSymbol';
-import Notice from '../../components/Notice';
 import useProfitRate from '../../hooks/useProfitRate';
+import useRobots from '../../hooks/useRobots';
+import { getDisplayBalance } from '../../utils/formatBalance';
 
-const BankCards: React.FC = () => {
-  const [banks] = useBanks();
-  const { path } = useRouteMatch();
-
-  var banksTmp;
-  if (path == '/fbc') {
-    banksTmp = banks.filter((bank) => bank.earnTokenName == 'FBC');
-  } else {
-    banksTmp = banks.filter((bank) => bank.earnTokenName == 'FBS');
-  }
-  const activeBanks = banksTmp.filter((bank) => !bank.finished);
-  const inactiveBanks = banksTmp.filter((bank) => bank.finished);
-
-  let finishedFirstRow = false;
-  const inactiveRows = inactiveBanks.reduce<Bank[][]>(
-    (bankRows, bank) => {
-      const newBankRows = [...bankRows];
-      if (newBankRows[newBankRows.length - 1].length === (finishedFirstRow ? 2 : 3)) {
-        newBankRows.push([bank]);
-        finishedFirstRow = true;
-      } else {
-        newBankRows[newBankRows.length - 1].push(bank);
-      }
-      return newBankRows;
-    },
-    [[]],
-  );
-
+const RobotCards: React.FC = () => {
+  const [robots] = useRobots();
   return (
     <StyledCards>
-      {inactiveRows[0].length > 0 && (
-        <StyledInactiveNoticeContainer>
-          <Notice color="grey">
-            <b>You have banks where the mining has finished.</b>
-            <br />
-            Please withdraw and settle your stakes.
-          </Notice>
-        </StyledInactiveNoticeContainer>
-      )}
-      <StyledRow>
-        {activeBanks.map((bank, i) => (
-          <React.Fragment key={bank.name}>
-            <BankCard bank={bank} />
-            {i < activeBanks.length - 1 && <StyledSpacer />}
-          </React.Fragment>
-        ))}
-      </StyledRow>
-      {inactiveRows[0].length > 0 && (
-        <>
-          <StyledInactiveBankTitle>Inactive Banks</StyledInactiveBankTitle>
-          {inactiveRows.map((bankRow, i) => (
-            <StyledRow key={i}>
-              {bankRow.map((bank, j) => (
-                <React.Fragment key={j}>
-                  <BankCard bank={bank} />
-                  {j < bankRow.length - 1 && <StyledSpacer />}
-                </React.Fragment>
-              ))}
-            </StyledRow>
-          ))}
-        </>
+
+      {robots.map((robot, i) => (
+
+        <StyledCardWrapper key={i}>
+          <Card>
+            <CardContent>
+              <StyledContent>
+                <StyledTitle>{robot.name}</StyledTitle>
+
+                <StyledDetailContainer>
+                  <StyledDetailTitle>{robot.config.depositTokenName}: <StyledDetailContent>{robot.depositBalance} </StyledDetailContent></StyledDetailTitle>
+                </StyledDetailContainer>
+
+                <StyledDetailContainer>
+                  <StyledDetailTitle>{robot.config.eranTokenName}: <StyledDetailContent>{robot.earnBalance} </StyledDetailContent></StyledDetailTitle>
+                </StyledDetailContainer>
+
+                <StyledDetailContainer>
+                  <StyledDetailTitle>FBG: <StyledDetailContent>{robot.fbgBalance} </StyledDetailContent></StyledDetailTitle>
+                </StyledDetailContainer>
+
+                <StyledDetailContainer>
+                  <StyledDetailTitle>质押FBG次数: <StyledDetailContent>{robot.stakeCount} </StyledDetailContent></StyledDetailTitle>
+                </StyledDetailContainer>
+                <StyledDetailContainer>
+                  <StyledDetailTitle>质押FBG数量: <StyledDetailContent>{getDisplayBalance(robot.stakeAmount)} </StyledDetailContent></StyledDetailTitle>
+                </StyledDetailContainer>
+                
+                <StyledDetailContainer>
+                  <StyledDetailTitle>共振FBG次数: <StyledDetailContent>{robot.swapCount} </StyledDetailContent></StyledDetailTitle>
+                </StyledDetailContainer>
+                <StyledDetailContainer>
+                  <StyledDetailTitle>共振消耗FBC数量: <StyledDetailContent>{getDisplayBalance(robot.swapAmount)} </StyledDetailContent></StyledDetailTitle>
+                </StyledDetailContainer>
+
+                <StyledDetailContainer>
+                  <StyledDetailTitle>提取{robot.config.eranTokenName}次数: <StyledDetailContent>{robot.rewardCount} </StyledDetailContent></StyledDetailTitle>
+                </StyledDetailContainer>
+                <StyledDetailContainer>
+                  <StyledDetailTitle>提取{robot.config.eranTokenName}数量: <StyledDetailContent>{getDisplayBalance(robot.rewardAmount)} </StyledDetailContent></StyledDetailTitle>
+                </StyledDetailContainer>
+
+                <StyledDetailContainer>
+                  <StyledDetailTitle>质押{robot.config.depositTokenName}次数: <StyledDetailContent>{robot.depostionCount} </StyledDetailContent></StyledDetailTitle>
+                </StyledDetailContainer>
+                <StyledDetailContainer>
+                  <StyledDetailTitle>质押{robot.config.depositTokenName}数量: <StyledDetailContent>{getDisplayBalance(robot.depostionAmount)} </StyledDetailContent></StyledDetailTitle>
+                </StyledDetailContainer>
+              </StyledContent>
+            </CardContent>
+          </Card>
+        </StyledCardWrapper>
+      )
       )}
     </StyledCards>
   );
@@ -86,12 +82,6 @@ const BankCard: React.FC<BankCardProps> = ({ bank }) => {
   const profitRate = useProfitRate(bank);
   return (
     <StyledCardWrapper>
-      {bank.depositTokenName.includes('LP') &&
-        (bank.depositTokenName.includes('BAS_DAI') ? (
-          <StyledCardSuperAccent />
-        ) : (
-            <StyledCardAccent />
-          ))}
       <Card>
         <CardContent>
           <StyledContent>
@@ -112,7 +102,7 @@ const BankCard: React.FC<BankCardProps> = ({ bank }) => {
               <StyledDetailTitle>APY: <StyledDetailContent>{profitRate ? <StyledDetailPrice>{profitRate.apy}</StyledDetailPrice> : 'loading'} </StyledDetailContent></StyledDetailTitle>
             </StyledDetailContainer>
 
-            <StyledDetailContainer style={{marginBottom:22}}>
+            <StyledDetailContainer style={{ marginBottom: 22 }}>
               <StyledDetailTitle>APD: <StyledDetailContent>{profitRate ? <StyledDetailPrice>{profitRate.apd}</StyledDetailPrice> : 'loading'}</StyledDetailContent></StyledDetailTitle>
             </StyledDetailContainer>
             <Button text="Select" to={`/bank/${bank.contract}`} />
@@ -146,7 +136,7 @@ const StyledCardSuperAccent = styled.div`
 `;
 
 const StyledCards = styled.div`
-  display: flex;
+  display: block;
   flex-direction: column;
   align-items: center;
   width: 900px;
@@ -175,9 +165,9 @@ const StyledRow = styled.div`
 `;
 
 const StyledCardWrapper = styled.div`
-  display: flex;
   width: calc((900px - ${(props) => props.theme.spacing[4]}px * 2) / 3);
   position: relative;
+  display: inline-block;
 `;
 
 const StyledTitle = styled.h4`
@@ -193,6 +183,7 @@ const StyledContent = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
+  display: inline-block;
 `;
 
 const StyledSpacer = styled.div`
@@ -240,4 +231,4 @@ const StyledInactiveBankTitle = styled.p`
   margin-bottom: ${(props) => props.theme.spacing[4]}px;
 `;
 
-export default BankCards;
+export default RobotCards;
