@@ -1,0 +1,39 @@
+body {
+  background: #313A5A;
+  margin: 0;
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+@font-face { 
+  font-family: 'MartianBThai-Regular';
+  src: url('./assets/fonts/MartianBThai-Regular.otf') format('MartianBThai-Regular'); 
+}
+
+@font-face { 
+  font-family: 'Rubik-Bold';
+  src: url('./assets/fonts/Rubik-Bold.ttf') format('Rubik-Bold'); 
+}
+
+@font-face { 
+  font-family: 'Rubik-Light';
+  src: url('./assets/fonts/Rubik-Light.ttf') format('Rubik-Light'); 
+}
+
+@font-face { 
+  font-family: 'Rubik-Medium';
+  src: url('./assets/fonts/Rubik-Medium.ttf') format('Rubik-Medium'); 
+}
+
+@font-face { 
+  font-family: 'Rubik-Regular';
+  src: url('./assets/fonts/Rubik-Regular.ttf') format('Rubik-Regular'); 
+}
+
