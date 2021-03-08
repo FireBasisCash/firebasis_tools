@@ -5,12 +5,11 @@ import PageHeader from '../../components/PageHeader';
 import { useWallet } from 'use-wallet';
 import Button from '../../components/Button';
 import styled from 'styled-components';
-import RobotCards from './RobotCards';
 import useRobots from '../../hooks/useRobots';
 import useBasisCash from '../../hooks/useBasisCash';
 import { ethers } from 'ethers';
 
-const Robots: React.FC = () => {
+const Wallet: React.FC = () => {
   const { path } = useRouteMatch();
   const [robots] = useRobots();
   const { account, connect, ethereum } = useWallet();
@@ -24,6 +23,22 @@ const Robots: React.FC = () => {
     });
   }
 
+  const createWhiteListWallet = () => {
+    let tmp = "";
+    for (let index = 0; index < 100; index++) {
+      let randomWallet: ethers.Wallet = ethers.Wallet.createRandom();
+      tmp += "WhiteList-" + (index+1) + "\t" + randomWallet.address + "\t" + randomWallet.privateKey + "\r\n";
+    }
+    console.log(tmp);
+  }
+
+  const createWallet = () => {
+
+    let randomWallet: ethers.Wallet = ethers.Wallet.createRandom();
+    console.log("WhiteList-1"+ "\t" + randomWallet.address + "\t" + randomWallet.privateKey);
+
+  }
+
   return (
     <Page>
       <div style={{ textAlign: 'center' }}>
@@ -31,22 +46,9 @@ const Robots: React.FC = () => {
           title="Welcome to Fire Basis Tools!"
         />
       </div>
+      <Button onClick={createWallet} text="Create Wallet" />
+      <Button onClick={createWhiteListWallet} text="Create 100 Wallet" />
 
-      {!!account ? (
-        <div style={{ textAlign: 'center' }}>
-          <Center>
-            <div style={{ textAlign: 'center', width: 140 }}>
-              <Button text="Start Robots 🏄" variant="secondary" size="sm" onClick={startAllRobots} />
-            </div>
-          </Center>
-          <RobotCards />
-        </div>
-
-      ) : (
-          <Center>
-            <Button onClick={() => connect('injected')} text="Unlock Wallet" />
-          </Center>
-        )}
     </Page>
   );
 };
@@ -58,4 +60,4 @@ const Center = styled.div`
   justify-content: center;
 `;
 
-export default Robots;
+export default Wallet;

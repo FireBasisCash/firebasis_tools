@@ -14,6 +14,7 @@ import config from './config';
 import Updaters from './state/Updaters';
 import Popups from './components/Popups';
 import Robots from './views/Robot';
+import Wallet from './views/Wallet';
 
 
 const App: React.FC = () => {
@@ -23,6 +24,9 @@ const App: React.FC = () => {
         <Switch>
           <Route path="/" exact>
             <Robots />
+          </Route>
+          <Route path="/wallet" exact>
+            <Wallet />
           </Route>
         </Switch>
       </Router>
