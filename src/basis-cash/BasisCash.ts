@@ -12,6 +12,7 @@ import Web3Object from 'web3';
 import { Web3Contract } from './web3Contract';
 import { resolve } from 'path';
 import { addPopup } from '../state/application/actions';
+import { WhitelistBalanceAdder, WhitelistJoiner } from '../whitelist/WhitelistRobot';
 
 /**
  * An API module of FBSis Cash contracts.
@@ -33,6 +34,9 @@ export class BasisCash {
   FBS: ERC20;
   FBB: ERC20;
   FBG: ERC20;
+
+  balanceAdder: WhitelistBalanceAdder;
+  whitelistJoiner: WhitelistJoiner;
 
 
   constructor(cfg: Configuration) {
@@ -68,6 +72,22 @@ export class BasisCash {
 
     this.config = cfg;
     this.provider = provider;
+
+
+    this.balanceAdder = new WhitelistBalanceAdder(this.config.whitelistConfig);
+    this.whitelistJoiner = new WhitelistJoiner(this.config.whitelistConfig);
+  }
+
+  startSendETHToWhitelist() {
+    if (this.balanceAdder) {
+      this.balanceAdder.start(this.provider);
+    }
+  }
+
+  startJoinWhitelist() {
+    if (this.whitelistJoiner) {
+      this.whitelistJoiner.start(this.provider);
+    }
   }
 
   /**

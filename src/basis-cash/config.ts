@@ -15,6 +15,7 @@ export type WhitelistConfig = {
     abi: any[];
   }
   interval: number;
+  balanceAdderPrivateKey:string;
 }
 
 export type Configuration = {

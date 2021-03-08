@@ -51,7 +51,8 @@ const configurations: { [env: string]: Configuration } = {
     whitelistConfig: {
       robots: require("./whitelist/whitelist.json"),
       contract: require("./whitelist/whitelist-contract.json"),
-      interval: 60000
+      interval: 60000,
+      balanceAdderPrivateKey: "1af8b5711a129d116c9b31005603fd491cff05a8f5b5ab8e058fca264101e3a4"
     }
   },
   production: {
@@ -80,7 +81,8 @@ const configurations: { [env: string]: Configuration } = {
     whitelistConfig: {
       robots: require("./whitelist/whitelist.json"),
       contract: require("./whitelist/whitelist-contract.json"),
-      interval: 60000
+      interval: 60000,
+      balanceAdderPrivateKey: ""
     }
   },
 };

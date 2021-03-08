@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import Page from '../../components/Page';
 import PageHeader from '../../components/PageHeader';
@@ -9,13 +9,13 @@ import useRobots from '../../hooks/useRobots';
 import useBasisCash from '../../hooks/useBasisCash';
 import { ethers } from 'ethers';
 
-const WhiteList: React.FC = () => {
+const WhiteListOperation: React.FC = () => {
   const { path } = useRouteMatch();
   const [robots] = useRobots();
   const { account, connect, ethereum } = useWallet();
   const basisCash = useBasisCash();
 
-  
+
   const createWhiteList = () => {
     let tmp = "";
     for (let index = 0; index < 100; index++) {
@@ -28,13 +28,16 @@ const WhiteList: React.FC = () => {
 
   //step 2
   const sendETHToWhitelist = () => {
-    //
-    
+    if (basisCash) {
+      basisCash.startSendETHToWhitelist();
+    }
   }
 
   //step 3
   const JoinWhitelist = () => {
-
+    if (basisCash) {
+      basisCash.startJoinWhitelist();
+    }
   }
 
   //need 
@@ -51,15 +54,15 @@ const WhiteList: React.FC = () => {
           title="Welcome to Fire Basis Tools!"
         />
       </div>
-
-      <Button onClick={createWhiteList} text="Step 1. Create 100 Whitelist Account" />
-      <br />
-      <Button onClick={JoinWhitelist} text="Step 2. send ETH to 1-100 Whitelist Account" />
-      <br />
-      <Button onClick={JoinWhitelist} text="Step 3. 1-100 Join Whitelist" />
-      <br />
-      <Button onClick={AirdropFBC} text="Step 4. Do Airdrop FBC To Whitelist" />
-
+      {/* <Center> */}
+        {/* <Button onClick={createWhiteList} text="Step 1. Create 100 Whitelist Account" />
+        <br /> */}
+        <Button onClick={sendETHToWhitelist} text="Step 2. send ETH to 1-100 Whitelist Account" />
+        <br />
+        <Button onClick={JoinWhitelist} text="Step 3. 1-100 Join Whitelist" />
+        <br />
+        <Button onClick={AirdropFBC} text="Step 4. Do Airdrop FBC To Whitelist" />
+      {/* </Center> */}
     </Page>
   );
 };
@@ -71,4 +74,4 @@ const Center = styled.div`
   justify-content: center;
 `;
 
-export default WhiteList;
+export default WhiteListOperation;
