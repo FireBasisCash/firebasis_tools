@@ -37,6 +37,7 @@ export class BasisCash {
 
   constructor(cfg: Configuration) {
     const { deployments, externalTokens } = cfg;
+
     const provider = getDefaultProvider();
     this.web3 = cfg.defaultProvider ? new Web3Object(cfg.defaultProvider) : new Web3Object();
 
@@ -341,6 +342,17 @@ export class BasisCash {
   async redeemBonds(amount: string): Promise<TransactionResponse> {
     const { Treasury } = this.contracts;
     return await Treasury.redeemBonds(decimalToBalance(amount));
+  }
+
+  async checkWhitelist(account: string): Promise<boolean> {
+    try {
+      const pool = this.contracts["Whitelist"];
+      return await pool.userJoined(account);
+
+    } catch (err) {
+      console.error(`Failed to call userJoined() on pool Whitelist: ${err.stack}`);
+      return false;
+    }
   }
 
   async earnedFromBank(poolName: ContractName, account = this.myAccount): Promise<BigNumber> {

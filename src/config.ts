@@ -4,6 +4,31 @@ import { BankInfo } from './basis-cash';
 import { formatUnits } from 'ethers/lib/utils';
 import { BigNumber } from 'ethers';
 
+
+
+
+// export const whitelistConfig: { [name: string]: WhitelistConfig } =
+// {
+//   goerli: {
+//     robots: require("./whitelist.json"),
+//     contract: require("./whitelist-contract.json")
+//   },
+//   mainnet: {
+//     robots: require("./whitelist.json"),
+//     contract: require("./whitelist-contract.json")
+//   }
+//   ,
+//   hecotest: {
+//     robots: require("./whitelist.json"),
+//     contract: require("./whitelist-contract.json")
+//   }
+//   ,
+//   heco: {
+//     robots: require("./whitelist.json"),
+//     contract: require("./whitelist-contract.json")
+//   }
+// }
+
 const configurations: { [env: string]: Configuration } = {
   development: {
     chainId: ChainId.GÖRLI,
@@ -23,6 +48,11 @@ const configurations: { [env: string]: Configuration } = {
     boardroomLaunchesAt: new Date('2020-12-11T00:00:00Z'),
     refreshInterval: 10000,
     gasLimitMultiplier: 1.1,
+    whitelistConfig: {
+      robots: require("./whitelist/whitelist.json"),
+      contract: require("./whitelist/whitelist-contract.json"),
+      interval: 60000
+    }
   },
   production: {
     chainId: ChainId.GÖRLI,
@@ -38,7 +68,7 @@ const configurations: { [env: string]: Configuration } = {
       'FBS_USDT_LP': ['0x2F5684996808A17CC5C1C95495504D599f62262d', 18],
       'FBC_USDT_LP': ['0xaB707042f31AfeD5FDF440D9f2C2Bba45F855844', 18],
       'FBG_USDT_LP': ['0xb5F8AaD755866ad31bCEB751a5256F328B5936C9', 18],
-      
+
       //HT
 
     },
@@ -47,6 +77,11 @@ const configurations: { [env: string]: Configuration } = {
     boardroomLaunchesAt: new Date('2020-12-11T00:00:00Z'),
     refreshInterval: 30000,
     gasLimitMultiplier: 1.7,
+    whitelistConfig: {
+      robots: require("./whitelist/whitelist.json"),
+      contract: require("./whitelist/whitelist-contract.json"),
+      interval: 60000
+    }
   },
 };
 
@@ -59,7 +94,7 @@ export const bankDefinitions: { [contractName: string]: BankInfo } = {
     earnTokenName: 'FBC',
     finished: false,
     sort: 1,
-    accelerator:false,
+    accelerator: false,
     acceleratorTokenName: 'FBG'
   },
   USDTAcceleratorCashPool: {
@@ -69,7 +104,7 @@ export const bankDefinitions: { [contractName: string]: BankInfo } = {
     earnTokenName: 'FBC',
     finished: false,
     sort: 2,
-    accelerator:true,
+    accelerator: true,
     acceleratorTokenName: 'FBG'
   },
 
@@ -80,7 +115,7 @@ export const bankDefinitions: { [contractName: string]: BankInfo } = {
     earnTokenName: 'FBC',
     finished: false,
     sort: 3,
-    accelerator:true,
+    accelerator: true,
     acceleratorTokenName: 'FBG'
   },
 
@@ -92,7 +127,7 @@ export const bankDefinitions: { [contractName: string]: BankInfo } = {
     earnTokenName: 'FBS',
     finished: false,
     sort: 5,
-    accelerator:true,
+    accelerator: true,
     acceleratorTokenName: 'FBG'
   },
   FBSUSDTLPTokenSharePool: {
@@ -102,7 +137,7 @@ export const bankDefinitions: { [contractName: string]: BankInfo } = {
     earnTokenName: 'FBS',
     finished: false,
     sort: 6,
-    accelerator:true,
+    accelerator: true,
     acceleratorTokenName: 'FBG'
   },
   FBGUSDTLPTokenSharePool: {
@@ -112,7 +147,7 @@ export const bankDefinitions: { [contractName: string]: BankInfo } = {
     earnTokenName: 'FBS',
     finished: false,
     sort: 7,
-    accelerator:true,
+    accelerator: true,
     acceleratorTokenName: 'FBG'
   },
 };

@@ -1,8 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
+import TopBar from '../TopBar'
 
 const Page: React.FC = ({ children }) => (
   <StyledPage>
+    <TopBar></TopBar>
     <StyledMain>
       {children}
     </StyledMain>

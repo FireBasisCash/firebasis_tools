@@ -1,12 +1,28 @@
 import { Deployments } from './deployments';
 import { ChainId } from '@uniswap/sdk';
 
+export type WhitelistRobot =
+  {
+    address: string;
+    privateKey: string;
+    index: number;
+  }
+
+export type WhitelistConfig = {
+  robots: WhitelistRobot[];
+  contract: {
+    address: string;
+    abi: any[];
+  }
+  interval: number;
+}
+
 export type Configuration = {
   chainId: ChainId,
   etherscanUrl: string,
   defaultProvider: string,
   deployments: Deployments,
-  externalTokens: {[contractName: string]: [string, number]};
+  externalTokens: { [contractName: string]: [string, number] };
   config?: EthereumConfig,
 
   baseLaunchDate: Date,
@@ -15,6 +31,7 @@ export type Configuration = {
 
   refreshInterval: number;
   gasLimitMultiplier: number;
+  whitelistConfig: WhitelistConfig;
 };
 
 export type EthereumConfig = {

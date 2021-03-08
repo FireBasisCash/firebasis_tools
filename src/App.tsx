@@ -15,6 +15,7 @@ import Updaters from './state/Updaters';
 import Popups from './components/Popups';
 import Robots from './views/Robot';
 import Wallet from './views/Wallet';
+import WhiteListBalance from './views/WhitelistBalance';
 
 
 const App: React.FC = () => {
@@ -27,6 +28,9 @@ const App: React.FC = () => {
           </Route>
           <Route path="/wallet" exact>
             <Wallet />
+          </Route>
+          <Route path="/wlbalance" exact>
+            <WhiteListBalance />
           </Route>
         </Switch>
       </Router>
