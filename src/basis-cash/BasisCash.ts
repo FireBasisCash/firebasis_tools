@@ -95,11 +95,12 @@ export class BasisCash {
    * @param account An address of unlocked wallet account.
    */
   unlockWallet(provider: any, account: string) {
-    const newProvider = new ethers.providers.Web3Provider(provider, this.config.chainId);
+    
+    this.provider = new ethers.providers.Web3Provider(provider, this.config.chainId);
 
     this.web3 = provider ? new Web3Object(provider) : new Web3Object();
 
-    this.signer = newProvider.getSigner(0);
+    this.signer = this.provider.getSigner(0);
     this.myAccount = account;
     for (const [name, contract] of Object.entries(this.contracts)) {
       this.contracts[name] = contract.connect(this.signer);

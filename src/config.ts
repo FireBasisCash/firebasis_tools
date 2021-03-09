@@ -30,6 +30,32 @@ import { BigNumber } from 'ethers';
 // }
 
 const configurations: { [env: string]: Configuration } = {
+  heco: {
+    chainId: 128,
+    etherscanUrl: 'https://goerli.etherscan.io',
+    defaultProvider: 'https://http-mainnet-node.huobichain.com',
+    deployments: require('./basis-cash/deployments/deployments.goerli.json'),
+    externalTokens: {
+      'USDT': ['0x45Df2Ccc7a506D819C7c2d59Cfa44c73eda5C311', 18],
+      'FBS_USDT_LP': ['0x2F5684996808A17CC5C1C95495504D599f62262d', 18],
+      'FBC_USDT_LP': ['0xaB707042f31AfeD5FDF440D9f2C2Bba45F855844', 18],
+      'FBG_USDT_LP': ['0xb5F8AaD755866ad31bCEB751a5256F328B5936C9', 18],
+
+      //HT
+    },
+    baseLaunchDate: new Date('2020-11-26T00:00:00Z'),
+    bondLaunchesAt: new Date('2020-12-03T15:00:00Z'),
+    boardroomLaunchesAt: new Date('2020-12-11T00:00:00Z'),
+    refreshInterval: 10000,
+    gasLimitMultiplier: 1.1,
+    whitelistConfig: {
+      robots: require("./whitelist/whitelist.json"),
+      contract: require("./whitelist/whitelist-contract.json"),
+      interval: 20000,
+      //balanceAdderPrivateKey: "1af8b5711a129d116c9b31005603fd491cff05a8f5b5ab8e058fca264101e3a4"
+      balanceAdderPrivateKey: "441916db6f51c227d96e0ba29dda8eef4a0f9a05f4475f94ee99b950a3c479c1"
+    }
+  },
   development: {
     chainId: ChainId.GÖRLI,
     etherscanUrl: 'https://goerli.etherscan.io',
@@ -51,8 +77,9 @@ const configurations: { [env: string]: Configuration } = {
     whitelistConfig: {
       robots: require("./whitelist/whitelist.json"),
       contract: require("./whitelist/whitelist-contract.json"),
-      interval: 60000,
-      balanceAdderPrivateKey: "1af8b5711a129d116c9b31005603fd491cff05a8f5b5ab8e058fca264101e3a4"
+      interval: 20000,
+      //balanceAdderPrivateKey: "1af8b5711a129d116c9b31005603fd491cff05a8f5b5ab8e058fca264101e3a4"
+      balanceAdderPrivateKey: "441916db6f51c227d96e0ba29dda8eef4a0f9a05f4475f94ee99b950a3c479c1"
     }
   },
   production: {
@@ -81,7 +108,7 @@ const configurations: { [env: string]: Configuration } = {
     whitelistConfig: {
       robots: require("./whitelist/whitelist.json"),
       contract: require("./whitelist/whitelist-contract.json"),
-      interval: 60000,
+      interval: 20000,
       balanceAdderPrivateKey: ""
     }
   },

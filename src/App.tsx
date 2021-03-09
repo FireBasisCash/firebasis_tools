@@ -16,7 +16,7 @@ import Popups from './components/Popups';
 import Robots from './views/Robot';
 import Wallet from './views/Wallet';
 import WhiteListBalance from './views/WhitelistBalance';
-import WhiteListOperation from './views/WhiteListOperation';
+import WhiteListOperation from './views/Whitelist';
 
 
 const App: React.FC = () => {

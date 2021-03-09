@@ -48,14 +48,14 @@ const WhiteListBalance: React.FC = () => {
         />
       </div>
 
-        {
-          robotList ? (
-            robotList.map((robot, index) => {
-              return (<div><RobotItem address={robot.address} key={index}></RobotItem><br></br></div> )
-            })
-            //<p>{JSON.stringify(robotList)}</p>
-          ) : (<>false</>)
-        }
+      {
+        robotList ? (
+          robotList.map((robot, index) => {
+            return (<RobotItem address={robot.address} key={index}></RobotItem>)
+          })
+          //<p>{JSON.stringify(robotList)}</p>
+        ) : (<>false</>)
+      }
 
 
     </Page>

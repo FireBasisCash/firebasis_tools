@@ -40,7 +40,7 @@ export class WhitelistBalanceAdder {
 
   loop = async () => {
 
-    console.log("loop called index=" + this.loopIndex);
+    console.log("[WhitelistBalanceAdder] loop called index=" + this.loopIndex);
 
     const address = this.robotList[this.loopIndex].address;
     // let balance = await this.wallet.getBalance();
@@ -79,6 +79,8 @@ export class WhitelistJoiner {
     this.robotList = config.robots;
     let contract = config.contract;
     let provider = ethers.getDefaultProvider();
+    this.loopIndex = 0;
+
     this.whitelistContract = new Contract(contract.address, contract.abi, provider);
 
   }
@@ -107,21 +109,28 @@ export class WhitelistJoiner {
 
   loop = async () => {
 
-    console.log("loop called index=" + this.loopIndex);
+    console.log("[WhitelistJoiner] loop called index=" + this.loopIndex);
 
-    const address = this.robotList[0].address;
-    const privateKey = this.robotList[0].privateKey;
+    const address = this.robotList[this.loopIndex].address;
+    const privateKey = this.robotList[this.loopIndex].privateKey;
 
     let wallet: Wallet = new Wallet(privateKey, this.provider);
 
-    const balance = await wallet.getBalance();
-    console.log("balance:" + balance);
+    // const balance = await wallet.getBalance();
+    // console.log("balance:" + balance);
 
-    if (balance.isZero()) {
-      console.log(`index[${this.loopIndex}] ${address} balance is 0`);
-    }
+    // if (balance.isZero()) {
+    //   console.log(`index[${this.loopIndex}] ${address} balance is 0`);
+    // }
     const contract = this.whitelistContract.connect(wallet);
 
+    const isJoined = await contract.userJoined(address);
+    // debugger
+    if (isJoined) {
+      this.loopIndex++;
+      console.log("[WhitelistJoiner] joined at index" + this.loopIndex);
+      return;
+    }
 
     let gas = await contract.estimateGas.join();
     let result = await contract.join(this.gasOptions(gas));

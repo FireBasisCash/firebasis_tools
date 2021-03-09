@@ -10,21 +10,28 @@ export interface BasisCashContext {
 export const Context = createContext<BasisCashContext>({ basisCash: null });
 
 export const BasisCashProvider: React.FC = ({ children }) => {
-  const { ethereum, account } = useWallet();
+  const { ethereum, account, connect } = useWallet();
   const [basisCash, setBasisCash] = useState<BasisCash>();
 
   useEffect(() => {
+    debugger
+    if(!ethereum)
+    {
+      connect("injected");
+      return ;
+    }
+
     if (!basisCash) {
       const basis = new BasisCash(config);
-      if (account) {
-        // wallet was unlocked at initialization
-        basis.unlockWallet(ethereum, account);
-      }
       setBasisCash(basis);
-    } else if (account) {
-      basisCash.unlockWallet(ethereum, account);
+    } else {
+      if (account && ethereum) {
+        basisCash.unlockWallet(ethereum, account);
+      } else {
+        connect("injected");
+      }
     }
-  }, [account]);
+  }, [ethereum, account]);
 
   return <Context.Provider value={{ basisCash }}>{children}</Context.Provider>;
 };
