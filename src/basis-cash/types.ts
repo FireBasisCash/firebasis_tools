@@ -13,8 +13,8 @@ export interface BankInfo {
   finished: boolean;
   accelerator: boolean;
   acceleratorTokenName: ContractName;
+  started: boolean;
 }
-
 
 export interface Bank extends BankInfo {
   address: string;
@@ -51,6 +51,7 @@ export type FBGSwapperInfo = {
 
 export type PoolProfitRate = {
   tvl: string;
+  tvlNumber:number;
   apy: string;
   apd: string;
   totalCount: string;

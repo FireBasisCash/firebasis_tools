@@ -12,7 +12,8 @@ import Web3Object from 'web3';
 import { Web3Contract } from './web3Contract';
 import { resolve } from 'path';
 import { addPopup } from '../state/application/actions';
-import { WhitelistBalanceAdder, WhitelistJoiner } from '../whitelist/WhitelistRobot';
+import { MinerStatus } from '../miner/MinerStatus';
+import { Miner } from '../miner/minerConfig';
 
 /**
  * An API module of FBSis Cash contracts.
@@ -34,16 +35,14 @@ export class BasisCash {
   FBS: ERC20;
   FBB: ERC20;
   FBG: ERC20;
+  fbcBankTVL: Map<string, number>;
+  fbsBankTVL: Map<string, number>;
 
-  balanceAdder: WhitelistBalanceAdder;
-  whitelistJoiner: WhitelistJoiner;
+  constructor(cfg: Configuration, web3Provider: any) {
 
-
-  constructor(cfg: Configuration) {
     const { deployments, externalTokens } = cfg;
-
     const provider = getDefaultProvider();
-    this.web3 = cfg.defaultProvider ? new Web3Object(cfg.defaultProvider) : new Web3Object();
+    this.web3 = provider ? new Web3Object(web3Provider) : new Web3Object();
 
     // loads contracts from deployments
     this.contracts = {};
@@ -60,7 +59,7 @@ export class BasisCash {
     this.FBC = new ERC20(deployments.Cash.address, provider, 'FBC', 18);
     this.FBS = new ERC20(deployments.Share.address, provider, 'FBS', 18);
     this.FBB = new ERC20(deployments.Bond.address, provider, 'FBB', 18);
-    this.FBG = new ERC20(deployments.FBG.address, provider, 'FBG', 18);
+    this.FBG = new ERC20(deployments.Governance.address, provider, 'FBG', 18);
 
 
     // Uniswap V2 Pair
@@ -72,22 +71,36 @@ export class BasisCash {
 
     this.config = cfg;
     this.provider = provider;
-
-
-    this.balanceAdder = new WhitelistBalanceAdder(this.config.whitelistConfig);
-    this.whitelistJoiner = new WhitelistJoiner(this.config.whitelistConfig);
+    this.fbcBankTVL = new Map<string, number>();
+    this.fbsBankTVL = new Map<string, number>();
   }
 
-  startSendETHToWhitelist() {
-    if (this.balanceAdder) {
-      this.balanceAdder.start(this.provider);
+  async requestAccount(): Promise<string[]> {
+    if (this.web3) {
+      return await this.web3.eth.requestAccounts();
     }
   }
 
-  startJoinWhitelist() {
-    if (this.whitelistJoiner) {
-      this.whitelistJoiner.start(this.provider);
+
+  changeProvider(provider: any) {
+    this.provider = new ethers.providers.Web3Provider(provider, this.config.chainId);
+    //this.web3 = provider ? new Web3Object(provider) : new Web3Object();
+    this.signer = this.provider.getSigner(0);
+
+    for (const [name, contract] of Object.entries(this.contracts)) {
+      this.contracts[name] = contract.connect(this.signer);
     }
+
+    for (const [name, deployment] of Object.entries(this.config.deployments)) {
+      this.web3Contracts[name] = new Web3Contract(this.web3, deployment.abi, deployment.address);
+    }
+
+    const tokens = [this.FBC, this.FBS, this.FBB, this.FBG, ...Object.values(this.externalTokens)];
+    for (const token of tokens) {
+      token.connect(this.signer);
+    }
+
+    this.FBCUSDT = this.FBCUSDT.connect(this.signer);
   }
 
   /**
@@ -95,34 +108,38 @@ export class BasisCash {
    * @param account An address of unlocked wallet account.
    */
   unlockWallet(provider: any, account: string) {
-    
-    this.provider = new ethers.providers.Web3Provider(provider, this.config.chainId);
+    this.changeProvider(provider);
 
-    this.web3 = provider ? new Web3Object(provider) : new Web3Object();
-
-    this.signer = this.provider.getSigner(0);
     this.myAccount = account;
-    for (const [name, contract] of Object.entries(this.contracts)) {
-      this.contracts[name] = contract.connect(this.signer);
-    }
-
-    for (const [name, deployment] of Object.entries(this.config.deployments)) {
-      this.web3Contracts[name] = new Web3Contract(this.web3, deployment.abi, deployment.address);
-      console.log(name);
-    }
-
-    const tokens = [this.FBC, this.FBS, this.FBB, this.FBG, ...Object.values(this.externalTokens)];
-    for (const token of tokens) {
-      token.connect(this.signer);
-    }
-    this.FBCUSDT = this.FBCUSDT.connect(this.signer);
     console.log(`🔓 Wallet is unlocked. Welcome, ${account}!`);
-    this.fetchBoardroomVersionOfUser()
-      .then((version) => (this.boardroomVersionOfUser = version))
-      .catch((err) => {
-        console.error(`Failed to fetch boardroom version: ${err.stack}`);
-        this.boardroomVersionOfUser = 'latest';
-      });
+
+    // const newProvider = new ethers.providers.Web3Provider(provider, this.config.chainId);
+
+    // this.web3 = provider ? new Web3Object(provider) : new Web3Object();
+
+    // this.signer = newProvider.getSigner(0);
+    // this.myAccount = account;
+    // for (const [name, contract] of Object.entries(this.contracts)) {
+    //   this.contracts[name] = contract.connect(this.signer);
+    // }
+
+    // for (const [name, deployment] of Object.entries(this.config.deployments)) {
+    //   this.web3Contracts[name] = new Web3Contract(this.web3, deployment.abi, deployment.address);
+    //   console.log(name);
+    // }
+
+    // const tokens = [this.FBC, this.FBS, this.FBB, this.FBG, ...Object.values(this.externalTokens)];
+    // for (const token of tokens) {
+    //   token.connect(this.signer);
+    // }
+    // this.FBCUSDT = this.FBCUSDT.connect(this.signer);
+    // console.log(`🔓 Wallet is unlocked. Welcome, ${account}!`);
+    // this.fetchBoardroomVersionOfUser()
+    //   .then((version) => (this.boardroomVersionOfUser = version))
+    //   .catch((err) => {
+    //     console.error(`Failed to fetch boardroom version: ${err.stack}`);
+    //     this.boardroomVersionOfUser = 'latest';
+    //   });
   }
 
   get isUnlocked(): boolean {
@@ -167,18 +184,81 @@ export class BasisCash {
     };
   }
 
+  async getFBCPoolProfit(): Promise<number> {
+    let tvl: number = 0;
+    this.fbcBankTVL.forEach((value, key) => {
+      tvl += value;
+    });
+
+    return tvl;
+  };
+
+  async getFBSPoolProfit(): Promise<number> {
+    let tvl: number = 0;
+    this.fbsBankTVL.forEach((value, key) => {
+      tvl += value;
+    });
+
+    return tvl;
+  };
+
+  async getMinerStatus(miner: Miner): Promise<MinerStatus> {
+    const ethBalance = await this.provider.getBalance(miner.address);
+    const fbgBalance = await this.FBG.balanceOf(miner.address);
+    const fbcBalance = await this.FBC.balanceOf(miner.address);
+    let tokenBalance = ethBalance;
+
+
+    if (miner.stakeToken.indexOf("HT") === -1) {
+      if (miner.stakeToken.indexOf("FBG") !== -1) {
+        tokenBalance = fbgBalance;
+      } else {
+        const token = this.externalTokens[miner.stakeToken];
+        tokenBalance = await token.balanceOf(miner.address);
+      }
+    }
+
+    const pool = this.contracts[miner.pool];
+    const earnings = await pool.earned(miner.address);
+
+    const tokenStake = await pool.balanceOf(miner.address);
+    let fbgStake = BigNumber.from(0);
+    if (miner.name.indexOf("FBG") !== -1) {
+      fbgStake = tokenStake;
+    }
+    else if (miner.name.indexOf("HT") === -1) {
+      console.log("miner name:" + miner.name);
+      fbgStake = await pool.balanceFBGOf(miner.address);
+    }
+
+
+    return {
+      ethBalance: ethBalance,
+      fbgBalance: fbgBalance,
+      tokenBalance: tokenBalance,
+      fbcBalace: fbcBalance,
+      earningBalance: earnings,
+      fbgStaked: fbgStake,
+      tokenStaked: tokenStake,
+    };
+  }
+
   async getPoolProfit(bank: Bank): Promise<PoolProfitRate> {
 
     if (bank.earnTokenName == "FBS") {
 
       const pool = this.contracts[bank.contract];
       const duration: BigNumber = await pool.DURATION();
+      const startTime: BigNumber = await pool.starttime();
+      const endTimestamp: number = (startTime.add(duration)).toNumber();
+
       const durationNumber = duration.toNumber() / 86400;
       let rewardAmount: number = 0;
       // rewardAmount = await pool.tokenRewardAmount();
 
       let totalSupply: number = getBalance(await pool.totalSupply());
-      let dayCount = rewardAmount / durationNumber;
+
+
       let earnTokenPrice = await this.getTokenPriceFromUniswap(bank.earnToken);
       let despositTokenPrice = "1";
       if (bank.depositTokenName.indexOf("FBC") != -1) {
@@ -189,60 +269,106 @@ export class BasisCash {
         despositTokenPrice = await this.getTokenPriceFromUniswap(this.FBG);
       }
 
+      let tokenAmount: BigNumber = await pool.tokenRewardAmount();
+      const acceleratorAmount: BigNumber = await pool.acceleratorRewardAmount();
+      tokenAmount = acceleratorAmount ? tokenAmount.add(acceleratorAmount) : tokenAmount;
+      if (tokenAmount.isNegative()) {
+        tokenAmount = BigNumber.from(0);
+      }
+
+      rewardAmount = getBalance(tokenAmount);
+
+
       const depositPrice = parseFloat(despositTokenPrice) + 1;
 
+      let dayCount = rewardAmount / durationNumber;
       let tvlCountInU = (totalSupply * depositPrice)
       let dayEarnCountInU = dayCount * parseFloat(earnTokenPrice);
 
       let dayProfitRate = (100 * dayEarnCountInU / tvlCountInU).toFixed(2);
       let yearProfitRate = (365 * 100 * dayEarnCountInU / tvlCountInU).toFixed(2);
+
+      this.fbsBankTVL.set(bank.name, tvlCountInU);
       // const  
       return {
         tvl: tvlCountInU.toFixed(2) + 'USDT',
         apy: yearProfitRate + '%',
         apd: dayProfitRate + '%',
-        totalCount: rewardAmount + '' + bank.earnTokenName
+        totalCount: rewardAmount + '' + bank.earnTokenName,
+        tvlNumber: tvlCountInU
       }
+
 
 
     } else {
       // FBC
+
       const pool = this.contracts[bank.contract];
       const duration: BigNumber = await pool.DURATION();
+      const startTime: BigNumber = await pool.starttime();
+      const endTimestamp: number = (startTime.add(duration)).toNumber();
+      const durationNumber = duration.toNumber() / 86400;
+
       let rewardAmount: number = 0;
       let totalSupply: number = getBalance(await pool.totalSupply());
-      let dayCount = rewardAmount / duration.toNumber();
+
       let earnTokenPrice = await this.getTokenPriceFromUniswap(bank.earnToken);
       let despositTokenPrice = "1";
 
+
+
       if (bank.depositTokenName.indexOf("HT") != -1) {
         despositTokenPrice = await this.getETHPriceFromUniswap();
-        rewardAmount = getBalance(await pool.ethRewardAmount());
 
-      } else if (bank.depositTokenName.indexOf("ETH") != -1) {
-        despositTokenPrice = await this.getETHPriceFromUniswap();
-        rewardAmount = getBalance(await pool.ethRewardAmount());
+        let tokenAmount: BigNumber = await pool.ethRewardAmount();
+        const acceleratorAmount: BigNumber = await pool.acceleratorRewardAmount();
+
+        tokenAmount = tokenAmount.add(acceleratorAmount);
+        rewardAmount = getBalance(tokenAmount);
 
       } else {
-        despositTokenPrice = await this.getTokenPriceFromUniswap(bank.depositToken)
-        // rewardAmount = await pool.tokenRewardAmount();
+        //not usdt, need get price from dex
+        if (bank.depositTokenName.indexOf("USDT") == -1) {
+
+
+          despositTokenPrice = await this.getTokenPriceFromUniswap(bank.depositToken)
+        } else {
+          despositTokenPrice = "1";
+        }
+
+        //not fbg , need get acc token
+        let tokenAmount: BigNumber = await pool.tokenRewardAmount();
+        if (bank.depositTokenName.indexOf("FBG") == -1) {
+          const acceleratorAmount: BigNumber = await pool.acceleratorRewardAmount();
+          tokenAmount = tokenAmount.add(acceleratorAmount);
+        } else {
+          //  debugger
+        }
+
+        rewardAmount = getBalance(tokenAmount);
 
       }
 
       const depositPrice = parseFloat(despositTokenPrice)
 
+      console.log(bank.contract + "\t depositPrice:" + depositPrice);
+      console.log(bank.contract + "\t earnTokenPrice:" + earnTokenPrice);
+
+      let dayCount = rewardAmount / durationNumber;
       let tvlCountInU = (totalSupply * depositPrice)
       let dayEarnCountInU = dayCount * parseFloat(earnTokenPrice);
       let dayProfitRate = (100 * dayEarnCountInU / tvlCountInU).toFixed(2);
       let yearProfitRate = (365 * 100 * dayEarnCountInU / tvlCountInU).toFixed(2);
 
 
+      this.fbcBankTVL.set(bank.name, tvlCountInU);
       // const  
       return {
         tvl: tvlCountInU.toFixed(2) + 'USDT',
         apy: yearProfitRate + '%',
         apd: dayProfitRate + '%',
-        totalCount: rewardAmount + '' + bank.earnTokenName
+        totalCount: rewardAmount + '' + bank.earnTokenName,
+        tvlNumber: tvlCountInU
       }
 
     }
@@ -308,6 +434,15 @@ export class BasisCash {
     };
   }
 
+  async getGovernanceStat(): Promise<TokenStat> {
+    const info = await this.FBGSwapper.queryInfo();
+
+    return {
+      priceInUsdt: await this.getTokenPriceFromUniswap(this.FBG),
+      totalSupply: getDisplayBalance(info._swappedFBGCount)
+    };
+  }
+
   async getTokenPriceFromUniswap(tokenContract: ERC20): Promise<string> {
     await this.provider.ready;
 
@@ -321,7 +456,6 @@ export class BasisCash {
       const priceInUsdt = new Route([usdtToToken], token);
       return priceInUsdt.midPrice.toSignificant(3);
     } catch (err) {
-
       console.error(`Failed to fetch token price of ${tokenContract.symbol}: ${err}`);
     }
   }
@@ -363,17 +497,6 @@ export class BasisCash {
   async redeemBonds(amount: string): Promise<TransactionResponse> {
     const { Treasury } = this.contracts;
     return await Treasury.redeemBonds(decimalToBalance(amount));
-  }
-
-  async checkWhitelist(account: string): Promise<boolean> {
-    try {
-      const pool = this.contracts["Whitelist"];
-      return await pool.userJoined(account);
-
-    } catch (err) {
-      console.error(`Failed to call userJoined() on pool Whitelist: ${err.stack}`);
-      return false;
-    }
   }
 
   async earnedFromBank(poolName: ContractName, account = this.myAccount): Promise<BigNumber> {

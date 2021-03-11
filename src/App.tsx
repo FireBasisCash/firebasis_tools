@@ -4,19 +4,23 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { UseWalletProvider } from 'use-wallet';
 
-import RobotsProvider from './contexts/Robots';
+import MinersProvider from './contexts/Miners';
 import BasisCashProvider from './contexts/BasisCashProvider';
 import ModalsProvider from './contexts/Modals';
+
+import Banks from './views/Banks';
+import Home from './views/Home';
+import Bond from './views/Bond';
 
 import store from './state';
 import theme from './theme';
 import config from './config';
 import Updaters from './state/Updaters';
+import Boardroom from './views/Boardroom';
 import Popups from './components/Popups';
-import Robots from './views/Robot';
-import Wallet from './views/Wallet';
-import WhiteListBalance from './views/WhitelistBalance';
-import WhiteListOperation from './views/Whitelist';
+import WhiteList from './views/WhiteList';
+import Governance from './views/Governance';
+import Miners from './views/Miner';
 
 
 const App: React.FC = () => {
@@ -25,13 +29,10 @@ const App: React.FC = () => {
       <Router>
         <Switch>
           <Route path="/" exact>
-            <Robots />
+            <Home />
           </Route>
-          <Route path="/wloperation" exact>
-            <WhiteListOperation />
-          </Route>
-          <Route path="/wlbalance" exact>
-            <WhiteListBalance />
+          <Route path="/miner">
+            <Miners />
           </Route>
         </Switch>
       </Router>
@@ -47,12 +48,12 @@ const Providers: React.FC = ({ children }) => {
           <Updaters />
           <BasisCashProvider>
             <ModalsProvider>
-              <RobotsProvider>
+              <MinersProvider>
                 <>
                   <Popups />
                   {children}
                 </>
-              </RobotsProvider>
+              </MinersProvider>
             </ModalsProvider>
           </BasisCashProvider>
         </Provider>

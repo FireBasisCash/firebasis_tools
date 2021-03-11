@@ -5,11 +5,12 @@ import Button from '../../Button';
 import { isTransactionRecent, useAllTransactions } from '../../../state/transactions/hooks';
 import useModal from '../../../hooks/useModal';
 import TxModal from './TxModal';
+import useAccount from '../../../hooks/useAccount';
 
 interface TxButtonProps {}
 
 const TxButton: React.FC<TxButtonProps> = () => {
-  const { account } = useWallet();
+  const { account } = useAccount();
   const allTransactions = useAllTransactions();
 
   const pendingTransactions = useMemo(

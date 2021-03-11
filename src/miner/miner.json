@@ -1,0 +1,194 @@
+[
+    {
+        "address": "0x68b715F468Ee1A62c70229D213144e4F94d44e72",
+        "privateKey": "0x8222004b9b99b8ff0be5fe1f6dba80ac7f94e6be93e99b721ee68489dc9fbad2",
+        "index": 1,
+        "name": "FBG-POOL-1",
+        "pool": "FBG_CashPool",
+        "stakeToken": "FBG"
+    },
+    {
+        "address": "0xC564378456fbeC727BEb69e24b61A07A1099bD71",
+        "privateKey": "0x26108b41e5910d045965eb2c681cd6b6419452deaa89ced94aa6d05fad896836",
+        "index": 2,
+        "name": "FBG-POOL-2",
+        "pool": "FBG_CashPool",
+        "stakeToken": "FBG"
+    },
+    {
+        "address": "0xE187faFdE97335c7cd05412c3F679eb1426Fc5D7",
+        "privateKey": "0xd09b88a85ea75261e8c2d8150e1b522ac4b1d1fade948ba682a8fa6f8ceb5ca1",
+        "index": 3,
+        "name": "FBG-POOL-3",
+        "pool": "FBG_CashPool",
+        "stakeToken": "FBG"
+    },
+    {
+        "address": "0xE49d81B443A9442B4C08AC636b3dEf0fbf4695C5",
+        "privateKey": "0x55be0ed0fa430e05aefb60833723d541dbf77135ed8a2851c75b84468bb5be64",
+        "index": 4,
+        "name": "FBG-POOL-4",
+        "pool": "FBG_CashPool",
+        "stakeToken": "FBG"
+    },
+    {
+        "address": "0x99Bf401494f7c7308Ea862bF287a6Fa9255c00cb",
+        "privateKey": "0x2e4b76565bdbf52cd8159818851b99582acdccf6d571abfab83e0cefbdb44e23",
+        "index": 5,
+        "name": "FBG-POOL-5",
+        "pool": "FBG_CashPool",
+        "stakeToken": "FBG"
+    },
+    {
+        "address": "0x8fb8717Eb413a0e3aEcb65524145958cE8a8ff79",
+        "privateKey": "0x3e53a5192ecbd7c5617b2657e4980110b3a2ee49ce9402ef40467cb296dee8f2",
+        "index": 6,
+        "name": "FBG-POOL-6",
+        "pool": "FBG_CashPool",
+        "stakeToken": "FBG"
+    },
+    {
+        "address": "0x9F611D4759BDDB623A4Abaf847Aa9D6a43317a10",
+        "privateKey": "0xf97b27e2d5fa17c3ae911292567c6cc2d11b93b064d29c9182e79f47d2d3a972",
+        "index": 7,
+        "name": "USDT-POOL-1",
+        "pool": "USDT_AcceleratorCashPool",
+        "stakeToken": "USDT"
+    },
+    {
+        "address": "0xBAaF57f7Db2B6c0d2702784E5e530B0BCb52EA88",
+        "privateKey": "0x609cecdc08b16972fce56c70d7aeaad1a3cc290d36bdef02cf6a256c4a5f4087",
+        "index": 8,
+        "name": "USDT-POOL-2",
+        "pool": "USDT_AcceleratorCashPool",
+        "stakeToken": "USDT"
+    },
+    {
+        "address": "0x93bc4c3fF39FabEa14A59DdC04a7853592B0aBCc",
+        "privateKey": "0x0de488c3814a7dea371f58e5d4ca58b3f802bb0ee3adedf68e195c7caecd400f",
+        "index": 9,
+        "name": "USDT-POOL-3",
+        "pool": "USDT_AcceleratorCashPool",
+        "stakeToken": "USDT"
+    },
+    {
+        "address": "0xD4eFB76ba785eDd0E9Aba9930492E169AfF38305",
+        "privateKey": "0x8835bc9e4537e162160ecd4317f3a95af7678b0ffa76442dbcb951c277a4a5a1",
+        "index": 10,
+        "name": "HT-POOL-1",
+        "pool": "ETH_AcceleratorCashPool",
+        "stakeToken": "HT"
+    },
+    {
+        "address": "0x0cC13Bf2175FB9E09A188fB8F1F5cB19CDC9D4CE",
+        "privateKey": "0xad350b432b262c946c44544aa3c0d5238ac72af4b7b190966c23c2c40986688e",
+        "index": 11,
+        "name": "HT-POOL-2",
+        "pool": "ETH_AcceleratorCashPool",
+        "stakeToken": "HT"
+    },
+    {
+        "address": "0xD0dE3B6a4600F46f5ac460B55B906cC704C3C0EE",
+        "privateKey": "0x4c3f30d8344c8d04fc6f79c759c878d183ae9b151a8d2cb0338fc411d862594c",
+        "index": 12,
+        "name": "HT-POOL-3",
+        "pool": "ETH_AcceleratorCashPool",
+        "stakeToken": "HT"
+    },
+    {
+        "address": "0x4BAfEc46544433EA20e2d3020ee8CC38a73c477b",
+        "privateKey": "0x2b30b713a38cb4b422cca6a2134d3bed478add525eb714ffaca18ce87d6efa2a",
+        "index": 13,
+        "name": "HBTC-POOL-1",
+        "pool": "HBTC_AcceleratorCashPool",
+        "stakeToken": "HBTC"
+    },
+    {
+        "address": "0x0e44349EC5443197622F978b69AA008c5e7A75CA",
+        "privateKey": "0xc53a9a57eb28f523e9cb9d31aa6a21ccc4b2bf7c3b5d5e5b5f686de297ff71d5",
+        "index": 14,
+        "name": "HBTC-POOL-2",
+        "pool": "HBTC_AcceleratorCashPool",
+        "stakeToken": "HBTC"
+    },
+    {
+        "address": "0x7701E1000c8BA70c429d18214F6E1305331CF1A5",
+        "privateKey": "0xcd8f19231d496ab4816d53c0d8238e6018f139a9af68ceb361c82c7a0e9a1c7c",
+        "index": 15,
+        "name": "HETH-POOL-1",
+        "pool": "HETH_AcceleratorCashPool",
+        "stakeToken": "HETH"
+    },
+    {
+        "address": "0x24A8CFF5A481B8Fa724f1654df83d202Ca190489",
+        "privateKey": "0xd2b34615a257dd11968a48facd57e2285527b0b0ce303a92b5489fb24b923f42",
+        "index": 16,
+        "name": "HETH-POOL-2",
+        "pool": "HETH_AcceleratorCashPool",
+        "stakeToken": "HETH"
+    },
+    {
+        "address": "0x8A1e7Ef83cD96597fCF5e89d49a058e5398a0D49",
+        "privateKey": "0x8fedb17ac57b1d42a8588e8c9613584bd985a4246ff485f358cd91a98f1018ad",
+        "index": 17,
+        "name": "HDOT-POOL-1",
+        "pool": "HDOT_AcceleratorCashPool",
+        "stakeToken": "HDOT"
+    },
+    {
+        "address": "0x4026E296195428618023fb828a9fD4f101c7aDaD",
+        "privateKey": "0x62e5bf6a7a848f1a9db3e758886acd642cd7959d7237013c836d3bfb67853c56",
+        "index": 18,
+        "name": "HDOT-POOL-2",
+        "pool": "HDOT_AcceleratorCashPool",
+        "stakeToken": "HDOT"
+    },
+    {
+        "address": "0x927DCEe8001E20f7A0F84d1F68fACFCB9068E3b2",
+        "privateKey": "0xbc0b9627941207f951049d2331715cb96e60c1362c6f83e3c1ed9f25dac3180e",
+        "index": 19,
+        "name": "HFIL-POOL-1",
+        "pool": "HFIL_AcceleratorCashPool",
+        "stakeToken": "HFIL"
+    },
+    {
+        "address": "0x11DCd0AEB3b7aAc68aECf04E4A77C21561876Cd2",
+        "privateKey": "0x243b1278741b46456d0eb107c68939d2bf425dd0c36d00c0878667fb7e72a763",
+        "index": 20,
+        "name": "HFIL-POOL-2",
+        "pool": "HFIL_AcceleratorCashPool",
+        "stakeToken": "HFIL"
+    },
+    {
+        "address": "0x763814Abc59b26d7A636C10940994768706FCA51",
+        "privateKey": "0x35997632ba4b3481f1989a5e731727c0b2380181a9a0c2aa8805e2903e70a0d4",
+        "index": 21,
+        "name": "HLTC-POOL-1",
+        "pool": "HLTC_AcceleratorCashPool",
+        "stakeToken": "HLTC"
+    },
+    {
+        "address": "0x7D6eDD81cd882e24d26B2DEA50b4fC73e277af8f",
+        "privateKey": "0x1d80aa56dc60eb476c80dfcb80007a7d51e1014d2fe90339fbf9285a367b1f86",
+        "index": 22,
+        "name": "HLTC-POOL-2",
+        "pool": "HLTC_AcceleratorCashPool",
+        "stakeToken": "HLTC"
+    },
+    {
+        "address": "0x4ECd850c67b331e4eeD1EE1C9d82c20ABd751293",
+        "privateKey": "0x3f209508f18df9aef4a94b7d1855333af6b56902e88e4a08e2edce5a0fcb6a31",
+        "index": 23,
+        "name": "MDX-POOL-1",
+        "pool": "MDX_AcceleratorCashPool",
+        "stakeToken": "MDX"
+    },
+    {
+        "address": "0x43AB73Ff0a468C96CC88C05D5AD33e799F6E93DE",
+        "privateKey": "0xcf18f7f98c8a7424a14dea0f9defe6abc7caf3d3d3d34f42e276483ceadaa8b1",
+        "index": 24,
+        "name": "MDX-POOL-2",
+        "pool": "MDX_AcceleratorCashPool",
+        "stakeToken": "MDX"
+    }
+]

@@ -7,7 +7,13 @@ import fbgLogo from '../../assets/img/fbg.svg';
 import usdtLogo from '../../assets/img/USDT.png';
 import HTLogo from '../../assets/img/HT.png';
 
-const logosBySymbol: {[title: string]: string} = {
+import hbtcLogo from '../../assets/img/ic_hbtc.png';
+import hethLogo from '../../assets/img/ic_heth.png';
+import hdotLogo from '../../assets/img/ic_hdot.png';
+import hfilLogo from '../../assets/img/ic_hfil.png';
+import hltcLogo from '../../assets/img/ic_hltc.png';
+import mdxLogo from '../../assets/img/ic_hmdx.png';
+const logosBySymbol: { [title: string]: string } = {
 
   'FBC': fbcLogo,
   'FBB': fbbLogo,
@@ -15,7 +21,12 @@ const logosBySymbol: {[title: string]: string} = {
   'FBG': fbgLogo,
   "USDT": usdtLogo,
   'HT': HTLogo,
-
+  "HBTC": hbtcLogo,
+  'HETH': hethLogo,
+  "HDOT": hdotLogo,
+  'HFIL': hfilLogo,
+  "HLTC": hltcLogo,
+  'MDX': mdxLogo,
   'FBC_USDT_LP': fbsLogo,
   'FBS_USDT_LP': fbsLogo,
   'FBG_USDT_LP': fbsLogo,

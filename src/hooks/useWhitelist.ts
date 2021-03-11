@@ -4,10 +4,11 @@ import { BigNumber } from 'ethers';
 import ERC20 from '../basis-cash/ERC20';
 import useBasisCash from './useBasisCash';
 import useHandleTransactionReceipt from './useHandleTransactionReceipt';
+import useAccount from './useAccount';
 
 const useWhitelist = () => {
   const [joined, setJoined] = useState<Boolean>(false);
-  const { account } = useWallet();
+  const { account } = useAccount();
   const basisCash = useBasisCash();
   const handleTransactionReceipt = useHandleTransactionReceipt();
 
